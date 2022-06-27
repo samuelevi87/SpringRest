@@ -1,14 +1,14 @@
 package com.sl3v1.levifoodapi;
 
-import com.sl3v1.levifoodapi.modelo.Cliente;
-import com.sl3v1.levifoodapi.service.AtivacaoClienteService;
+import com.sl3v1.levifoodapi.di.modelo.Cliente;
+import com.sl3v1.levifoodapi.di.service.AtivacaoClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class FirstController {
-    private AtivacaoClienteService ativacaoClienteService;
+    private final AtivacaoClienteService ativacaoClienteService;
 
     public FirstController(AtivacaoClienteService ativacaoClienteService) {
         this.ativacaoClienteService = ativacaoClienteService;
