@@ -1,4 +1,4 @@
-package com.sl3v1.levifoodapi.di.modelo;
+package com.sl3v1.levifoodapi.modelo;
 
 public class Cliente {
 
