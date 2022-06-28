@@ -11,17 +11,14 @@ public class AtivacaoClienteService {
 
     private Notificador notificador;
 
-    @Autowired
-    public AtivacaoClienteService(Notificador notificador){
-        this.notificador = notificador;
-    }
-
-    public AtivacaoClienteService(String qualified) {
-        this.notificador = notificador;
-    }
-
     public void ativar(Cliente cliente){
         cliente.ativar();
         this.notificador.notificar(cliente, "Seu cadastro está ativo!");
     }
+
+    @Autowired
+    public void setNotificador(Notificador notificador) {
+        this.notificador = notificador;
+    }
 }
+
