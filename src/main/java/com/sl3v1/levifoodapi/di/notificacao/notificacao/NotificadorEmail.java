@@ -2,7 +2,9 @@ package com.sl3v1.levifoodapi.di.notificacao.notificacao;
 
 
 import com.sl3v1.levifoodapi.di.modelo.Cliente;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class NotificadorEmail implements Notificador {
