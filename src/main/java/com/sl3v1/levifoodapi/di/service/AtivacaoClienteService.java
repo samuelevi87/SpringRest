@@ -11,7 +11,7 @@ import java.util.Objects;
 @Component
 public class AtivacaoClienteService {
 
-    @Autowired(required = false)
+    @Autowired(required = false) // O Parâmetro required é opcional, caso não seja informado, o valor padrão é true. Caso seja informado, com o valor false, a dependência será ignorada.
     private Notificador notificador;
 
     public void ativar(Cliente cliente) {
