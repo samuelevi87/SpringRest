@@ -5,7 +5,7 @@ import com.sl3v1.levifoodapi.di.modelo.Cliente;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Qualifier("asap")
+@TipoDoNotificador(NivelUrgencia.ALTO)
 @Component
 public class NotificadorWhatsApp implements Notificador {
 
