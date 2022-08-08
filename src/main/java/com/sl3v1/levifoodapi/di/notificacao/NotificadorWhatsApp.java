@@ -1,13 +1,17 @@
-package com.sl3v1.levifoodapi.di.notificacao.notificacao;
+package com.sl3v1.levifoodapi.di.notificacao;
 
 
 import com.sl3v1.levifoodapi.di.modelo.Cliente;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @TipoDoNotificador(NivelUrgencia.ALTO)
 @Component
 public class NotificadorWhatsApp implements Notificador {
+
+    public NotificadorWhatsApp(){
+        System.out.println("NotificadorWhatsApp REAL");
+    }
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {

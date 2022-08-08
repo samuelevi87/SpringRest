@@ -1,4 +1,4 @@
-package com.sl3v1.levifoodapi.di.notificacao.notificacao;
+package com.sl3v1.levifoodapi.di.notificacao;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 

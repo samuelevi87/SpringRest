@@ -1,11 +1,10 @@
-package com.sl3v1.levifoodapi.di.notificacao.notificacao;
+package com.sl3v1.levifoodapi.di.notificacao;
 
 
 import com.sl3v1.levifoodapi.di.modelo.Cliente;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("prod")
 @TipoDoNotificador(NivelUrgencia.SEM_URGENCIA)
 @Component
 public class NotificadorEmail implements Notificador {
