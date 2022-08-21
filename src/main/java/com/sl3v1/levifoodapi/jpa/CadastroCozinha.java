@@ -23,4 +23,20 @@ public class CadastroCozinha {
         return manager.merge(cozinha);
     }
 
+    public Cozinha buscar(Long id) {
+        return manager.find(Cozinha.class, id);
+    }
+
+    @Transactional
+    public void removerPorId(Long id) {
+        Cozinha cozinha = buscar(id);
+        manager.remove(cozinha);
+    }
+
+    @Transactional
+    public void remover(Cozinha cozinha) {
+        cozinha = buscar(cozinha.getId());
+        manager.remove(cozinha);
+    }
+
 }
