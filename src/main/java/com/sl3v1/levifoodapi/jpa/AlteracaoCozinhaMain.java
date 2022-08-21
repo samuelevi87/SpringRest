@@ -2,6 +2,7 @@ package com.sl3v1.levifoodapi.jpa;
 
 import com.sl3v1.levifoodapi.LevifoodApiApplication;
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
+import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -12,13 +13,13 @@ public class AlteracaoCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository repository = applicationContext.getBean(CozinhaRepository.class);
 
         Cozinha cozinha = new Cozinha();
         cozinha.setId(5L);
         cozinha.setNacionalidade("Mediterrânea");
 
-        cadastroCozinha.adicionar(cozinha);
+        repository.salvar(cozinha);
 
     }
 }
