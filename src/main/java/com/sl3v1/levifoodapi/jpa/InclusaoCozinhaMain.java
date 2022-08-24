@@ -2,7 +2,9 @@ package com.sl3v1.levifoodapi.jpa;
 
 import com.sl3v1.levifoodapi.LevifoodApiApplication;
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
+import com.sl3v1.levifoodapi.domain.model.FormaPagamento;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
+import com.sl3v1.levifoodapi.domain.repository.FormaPagamentoRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
