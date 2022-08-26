@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface CozinhaRepository {
     List<Cozinha> listarTodas();
     Cozinha buscarPorId(Long id);

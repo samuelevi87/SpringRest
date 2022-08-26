@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface EstadoRepository {
     List<Estado> listarTodas();
     Estado buscarPorId(Long id);

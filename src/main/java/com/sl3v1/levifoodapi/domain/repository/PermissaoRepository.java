@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface PermissaoRepository {
     List<Permissao> listarTodas();
     Permissao buscarPorId(Long id);
