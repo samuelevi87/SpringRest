@@ -1,5 +1,6 @@
 package com.sl3v1.levifoodapi.api.controller;
 
+import com.sl3v1.levifoodapi.api.model.CozinhasXmlWrapper;
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,14 @@ public class CozinhaController {
     @Autowired
     private CozinhaRepository repository;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Cozinha> listar() {
         return repository.listarTodas();
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public CozinhasXmlWrapper listarXml() {
+        return new CozinhasXmlWrapper(repository.listarTodas());
     }
 
     @GetMapping("/{cozinhaId}")
