@@ -4,11 +4,11 @@ import com.sl3v1.levifoodapi.api.model.CozinhasXmlWrapper;
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +29,17 @@ public class CozinhaController {
         return new CozinhasXmlWrapper(repository.listarTodas());
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{cozinhaId}")
-    public Cozinha buscar(@PathVariable("cozinhaId") Long id){
-        return repository.buscarPorId(id);
+    public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id){
+//        return ResponseEntity.status(HttpStatus.OK).body(repository.buscarPorId(id));
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//        return ResponseEntity.ok(repository.buscarPorId(id));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .headers(headers)
+                .build();
     }
 }
