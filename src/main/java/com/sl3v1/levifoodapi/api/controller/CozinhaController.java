@@ -31,7 +31,15 @@ public class CozinhaController {
         return new CozinhasXmlWrapper(repository.listarTodas());
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
+        Cozinha cozinhaProcurada = repository.buscarPorId(id);
+
+        if (Objects.isNull(cozinhaProcurada)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cozinhaProcurada);
     public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
         Cozinha cozinhaProcurada = repository.buscarPorId(id);
 
