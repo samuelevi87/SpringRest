@@ -1,11 +1,12 @@
 package com.sl3v1.levifoodapi.api.controller;
 
-import com.sl3v1.levifoodapi.api.model.CozinhasXmlWrapper;
+import com.sl3v1.levifoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.sl3v1.levifoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
+import com.sl3v1.levifoodapi.domain.services.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,12 @@ public class CozinhaController {
     @Autowired
     private CozinhaRepository repository;
 
+    @Autowired
+    private CozinhaService service;
+
     @GetMapping
     public List<Cozinha> listar() {
         return repository.listarTodas();
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public CozinhasXmlWrapper listarXml() {
-        return new CozinhasXmlWrapper(repository.listarTodas());
     }
 
     @GetMapping("/{cozinhaId}")
@@ -48,27 +47,24 @@ public class CozinhaController {
             return ResponseEntity.notFound().build();
         }
         BeanUtils.copyProperties(novaCozinha, cozinhaAtual, "id");
-        repository.salvar(cozinhaAtual);
+        service.salvar(cozinhaAtual);
         return ResponseEntity.ok(cozinhaAtual);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cozinha adicionar(@RequestBody Cozinha cozinhaParaAdicionar) {
-        return repository.salvar(cozinhaParaAdicionar);
-
+        return service.salvar(cozinhaParaAdicionar);
     }
 
     @DeleteMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId){
         try {
-            Cozinha cozinhaASerDeletada = repository.buscarPorId(cozinhaId);
-            if (Objects.isNull(cozinhaASerDeletada)) {
-                return ResponseEntity.notFound().build();
-            }
-            repository.remover(cozinhaASerDeletada);
+            service.remover(cozinhaId);
             return ResponseEntity.noContent().build();
-        } catch (DataIntegrityViolationException e) {
+        }catch(EntidadeNaoEncontradaException e){
+            return ResponseEntity.notFound().build();
+        }catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }

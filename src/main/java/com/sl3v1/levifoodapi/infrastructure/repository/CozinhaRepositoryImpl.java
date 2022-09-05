@@ -2,12 +2,14 @@ package com.sl3v1.levifoodapi.infrastructure.repository;
 
 import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class CozinhaRepositoryImpl implements CozinhaRepository {
@@ -32,8 +34,11 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @Transactional
     @Override
-    public void remover(Cozinha cozinha) {
-        cozinha = buscarPorId(cozinha.getId());
+    public void remover(Long id) {
+        Cozinha cozinha = buscarPorId(id);
+        if (Objects.isNull(cozinha)){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(cozinha);
     }
 }
