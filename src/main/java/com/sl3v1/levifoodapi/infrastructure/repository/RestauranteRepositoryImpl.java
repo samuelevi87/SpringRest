@@ -2,12 +2,14 @@ package com.sl3v1.levifoodapi.infrastructure.repository;
 
 import com.sl3v1.levifoodapi.domain.model.Restaurante;
 import com.sl3v1.levifoodapi.domain.repository.RestauranteRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class RestauranteRepositoryImpl implements RestauranteRepository {
@@ -32,8 +34,11 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @Transactional
     @Override
-    public void remover(Restaurante restaurante) {
-        restaurante = buscarPorId(restaurante.getId());
+    public void remover(Long id) {
+        Restaurante restaurante = buscarPorId(id);
+        if (Objects.isNull(restaurante)){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(restaurante);
     }
 }

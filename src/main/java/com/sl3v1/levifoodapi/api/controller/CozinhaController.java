@@ -40,6 +40,12 @@ public class CozinhaController {
         return ResponseEntity.ok(cozinhaProcurada);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cozinha adicionar(@RequestBody Cozinha cozinhaParaAdicionar) {
+        return service.salvar(cozinhaParaAdicionar);
+    }
+
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha novaCozinha) {
         Cozinha cozinhaAtual = repository.buscarPorId(cozinhaId);
@@ -51,21 +57,15 @@ public class CozinhaController {
         return ResponseEntity.ok(cozinhaAtual);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody Cozinha cozinhaParaAdicionar) {
-        return service.salvar(cozinhaParaAdicionar);
-    }
-
     @DeleteMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId){
+    public ResponseEntity<?> remover(@PathVariable Long cozinhaId){
         try {
             service.remover(cozinhaId);
             return ResponseEntity.noContent().build();
         }catch(EntidadeNaoEncontradaException e){
             return ResponseEntity.notFound().build();
         }catch (EntidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }
