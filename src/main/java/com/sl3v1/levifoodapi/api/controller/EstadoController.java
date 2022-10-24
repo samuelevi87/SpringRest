@@ -1,5 +1,6 @@
 package com.sl3v1.levifoodapi.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sl3v1.levifoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.sl3v1.levifoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.sl3v1.levifoodapi.domain.model.Estado;
@@ -9,9 +10,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController

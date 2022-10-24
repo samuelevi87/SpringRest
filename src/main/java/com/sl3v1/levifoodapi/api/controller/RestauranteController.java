@@ -1,8 +1,8 @@
 package com.sl3v1.levifoodapi.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sl3v1.levifoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.sl3v1.levifoodapi.domain.exceptions.EntidadeNaoEncontradaException;
-import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.model.Restaurante;
 import com.sl3v1.levifoodapi.domain.repository.RestauranteRepository;
 import com.sl3v1.levifoodapi.domain.services.RestauranteService;
@@ -10,9 +10,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -76,5 +79,30 @@ public class RestauranteController {
         }catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
+    }
+
+    @PatchMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> camposParaAtualizar)  {
+        Restaurante restauranteAtual = repository.buscarPorId(restauranteId);
+        if (Objects.isNull(restauranteAtual)) {
+            return ResponseEntity.notFound().build();
+        }
+        mesclar(camposParaAtualizar, restauranteAtual);
+        return atualizar(restauranteId, restauranteAtual);
+    }
+
+    private static void mesclar(Map<String, Object> camposParaAtualizar, Restaurante restauranteDestino) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Restaurante restauranteOrigem = objectMapper.convertValue(camposParaAtualizar, Restaurante.class);
+
+        camposParaAtualizar.forEach((chavePropriedade, valorPropriedade) -> {
+            Field campo = ReflectionUtils.findField(Restaurante.class, chavePropriedade);
+            assert campo != null;
+            campo.setAccessible(true);
+
+            Object novoValor = ReflectionUtils.getField(campo, restauranteOrigem);
+
+            ReflectionUtils.setField(campo, restauranteDestino, novoValor);
+        });
     }
 }
