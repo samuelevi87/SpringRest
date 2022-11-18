@@ -4,6 +4,7 @@ import com.sl3v1.levifoodapi.domain.model.Cidade;
 import com.sl3v1.levifoodapi.domain.repository.CidadeRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
-@Component
+@Repository
 public class CidadeRepositoryImpl implements CidadeRepository {
     @PersistenceContext
     private EntityManager manager;

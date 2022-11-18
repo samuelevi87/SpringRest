@@ -4,6 +4,7 @@ import com.sl3v1.levifoodapi.domain.model.Cozinha;
 import com.sl3v1.levifoodapi.domain.repository.CozinhaRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
-@Component
+@Repository
 public class CozinhaRepositoryImpl implements CozinhaRepository {
     @PersistenceContext
     private EntityManager manager;
@@ -19,6 +20,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     @Override
     public List<Cozinha> listarTodas() {
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
+    }
+
+    @Override
+    public List<Cozinha> consultarPorNacionalidade(String nacionalidade) {
+        return manager.createQuery("from Cozinha where nacionalidade like :nacionalidade", Cozinha.class)
+                .setParameter("nacionalidade","%" + nacionalidade + "%")
+                .getResultList();
     }
 
     @Transactional
